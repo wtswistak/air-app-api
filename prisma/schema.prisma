@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AirQualityIndex {
+  id          String @id @default(uuid()) @db.Uuid
+  stationId   Int @map("station_id") 
+  indexId     Int @map("index_id")
+  value       Int
+  measurementTime DateTime @map("measurement_time") @db.Timestamptz(3)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  station     Station  @relation(fields: [stationId], references: [id])
+  index       Index @relation(fields: [indexId], references: [id])
+
+  @@map("air_quality_index")
+}
+
+model Station {
+  id            Int @id @map("id")
+  name          String 
+  latitude      String 
+  longitude     String 
+  city          String
+  communeName   String? @map("commune_name") 
+  districtName  String @map("district_name")
+  provinceName  String @map("province_name")
+  addressStreet String? @map("address_street")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  airQualityIndex    AirQualityIndex[]
+  @@map("station")
+}
+
+model Index {
+  id          Int @id @map("id") @default(autoincrement())
+  name        String 
+  color       String
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  airQualityIndex    AirQualityIndex[]
+  @@map("index")
+}
