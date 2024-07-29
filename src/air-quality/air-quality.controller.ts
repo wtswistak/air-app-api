@@ -21,12 +21,7 @@ export class AirQualityController {
 
   @Get('test')
   async test() {
-    return this.airQualityService.createAirIndexes();
-    // return this.airQualityService.test();
-    // throw new ForbiddenException('You are not allowed to access this resource');
-    // const res = await this.airQualityService.getStations();
-    // console.log(res);
-    // return res;
+    console.log('');
   }
 
   @Get(':stationId')

@@ -12,7 +12,7 @@ export async function retryQuery(
       return;
     } catch (error) {
       if (attempt < retries) {
-        logger.warn(`Attempt ${attempt} failed. Retrying...`);
+        logger.warn(`Attempt ${attempt} failed. Retry`);
       } else {
         logger.error(`Attempt ${attempt} failed`);
         throw error;

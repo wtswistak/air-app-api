@@ -51,7 +51,7 @@ export class AirQualityRepository {
     });
   }
 
-  async getCurrentSationsIndex(
+  getCurrentSationsIndex(
     startOfHour: Date,
     endOfHour: Date,
   ): Promise<

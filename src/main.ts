@@ -2,7 +2,7 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { AppConfigService } from './common/config/app-config.service';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { ExceptionsFilter } from './common/filters/exceptions.filter';
 import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
 
 async function bootstrap() {
@@ -18,7 +18,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(
-    new HttpExceptionFilter(),
+    new ExceptionsFilter(),
     new PrismaExceptionFilter(httpAdapter),
   );
 

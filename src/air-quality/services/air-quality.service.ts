@@ -154,6 +154,7 @@ export class AirQualityService implements OnModuleInit {
   async getStationsWithIndex(): Promise<StationWithIndex[]> {
     const cachedData =
       await this.cacheManager.get<StationWithIndex[]>('airIndexes');
+
     if (cachedData) {
       this.logger.debug('Getting stations with air quality index from redis');
 
