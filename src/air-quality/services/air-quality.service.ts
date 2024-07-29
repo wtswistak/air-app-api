@@ -35,7 +35,7 @@ export class AirQualityService implements OnModuleInit {
     }
   }
 
-  async calcSensorValue(
+  async calcStationIndex(
     station: Station,
   ): Promise<Omit<AirQualityIndex, 'id' | 'createdAt' | 'updatedAt'>> {
     const sensors = await this.giosService.getSensors(station.id);
@@ -70,7 +70,7 @@ export class AirQualityService implements OnModuleInit {
     for (let i = 0; i < stations.length; i += size) {
       const batch = stations.slice(i, i + size);
       const airQualityIndexBatch = await Promise.all(
-        batch.map((station) => this.calcSensorValue(station)),
+        batch.map((station) => this.calcStationIndex(station)),
       );
 
       await retryQuery(async () => {
@@ -93,7 +93,7 @@ export class AirQualityService implements OnModuleInit {
       const batch = recordsToUpdate.slice(i, i + size);
       const updatePromises = batch.map(async (record) => {
         const station = await this.repository.getStation(record.stationId);
-        const airIndex = await this.calcSensorValue(station);
+        const airIndex = await this.calcStationIndex(station);
 
         if (airIndex.value === -1) return;
 
